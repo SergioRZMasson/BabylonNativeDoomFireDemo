@@ -1,4 +1,10 @@
-# Babylon Native Doom Fire Demo
+# Babylon Native - Doom Fire Demo
+
+<p align="center">
+  <a>
+    <img src="https://github.com/SergioRZMasson/BabylonNativeDoomFireDemo/blob/main/Documentation/Sample.gif?raw=true" width="490">
+  </a>
+</p>
 
 This is a demo showing how some computationally invesive tasks can be offloaded to C++ in a Babylon Native project. To ilustrate that we use multiple [Babylon.js Thin instances](https://doc.babylonjs.com/features/featuresDeepDive/mesh/copies/thinInstances), each instances has its color updated every frame by the [Doom Fire Algorithm](https://github.com/filipedeschamps/doom-fire-algorithm). The algorithm itself is pretty simple and it is just an excuse for use to update a large number of data every frame. The repo has two executables, in **DoomFireJS** we perform the fire update logic in JS, and in  **DoomFireNative** we move that logic to be done in C++. 
 
