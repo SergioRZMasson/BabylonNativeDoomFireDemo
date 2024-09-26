@@ -43,8 +43,6 @@ bool minimized = false;
 #define INITIAL_WIDTH 1920
 #define INITIAL_HEIGHT 1080
 
-static bool s_showImgui = false;
-
 static void *glfwNativeWindowHandle(GLFWwindow *_window)
 {
 #if TARGET_PLATFORM_LINUX
@@ -116,7 +114,6 @@ void RefreshBabylon(GLFWwindow *window)
 
 	Babylon::ScriptLoader loader{*runtime};
 	loader.Eval("document = {}", "");
-	// Commenting out recast.js for now because v8jsi is ncompatible with asm.js.
 	loader.LoadScript("app:///Scripts/babylon.max.js");
 	loader.LoadScript("app:///Scripts/babylonjs.loaders.js");
 	loader.LoadScript("app:///Scripts/babylonjs.materials.js");
@@ -132,17 +129,10 @@ static void key_callback(GLFWwindow *window, int key, int scancode, int action, 
 	{
 		RefreshBabylon(window);
 	}
-	else if (key == GLFW_KEY_D && action == GLFW_PRESS)
-	{
-		s_showImgui = !s_showImgui;
-	}
 }
 
 void mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
 {
-	if (s_showImgui)
-		return;
-
 	double xpos, ypos;
 	glfwGetCursorPos(window, &xpos, &ypos);
 	int32_t x = static_cast<int32_t>(xpos);
@@ -172,9 +162,6 @@ static void cursor_position_callback(GLFWwindow *window, double xpos, double ypo
 
 void scroll_callback(GLFWwindow *window, double xoffset, double yoffset)
 {
-	if (s_showImgui)
-		return;
-
 	nativeInput->MouseWheel(Babylon::Plugins::NativeInput::MOUSEWHEEL_Y_ID, static_cast<int>(-yoffset * 100.0));
 }
 
@@ -183,22 +170,14 @@ static void window_resize_callback(GLFWwindow *window, int width, int height)
 	device->UpdateSize(width, height);
 }
 
-
-static void decrease_fire_intesnity()
+static void change_instances_count(int count) 
 {
-	runtime->Dispatch([](Napi::Env env)
+	runtime->Dispatch([count](Napi::Env env)
 	{ 
-		env.Global().Get("decreaseFireSource").As<Napi::Function>().Call({}); 
+		env.Global().Get("decreaseFireSource").As<Napi::Function>().Call({Napi::Number::New(env, count)});
 	});
 }
 
-static void increase_fire_intesnity()
-{
-	runtime->Dispatch([](Napi::Env env)
-	{ 
-		env.Global().Get("increaseFireSource").As<Napi::Function>().Call({}); 
-	});
-}
 
 int main()
 {
@@ -208,7 +187,7 @@ int main()
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 	glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
 
-	auto window = glfwCreateWindow(INITIAL_WIDTH, INITIAL_HEIGHT, "Simple example", NULL, NULL);
+	auto window = glfwCreateWindow(INITIAL_WIDTH, INITIAL_HEIGHT, "DOOM Fire - JS", NULL, NULL);
 
 	if (!window)
 	{
@@ -257,39 +236,14 @@ int main()
 		ImGui_ImplBabylon_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 
-		if (s_showImgui)
-		{
-			ImGui::NewFrame();
+		ImGui::NewFrame();
 
-			static float ballSize = 1.0f;
+		ImGui::Begin( "DOOM Fire JS" );
+		ImGui::Text( "Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate );
+		ImGui::End();
 
-			ImGui::Begin("Scene Editor Example");
-
-			ImGui::Text("Use this controllers to change values in the Babylon scene.");
-
-			if (ImGui::Button("Increase Fire Intensity"))
-			{
-				increase_fire_intesnity();
-			}
-
-			if (ImGui::Button("Decrase Fire Intensity"))
-			{
-				decrease_fire_intesnity();
-			}
-
-			if (ImGui::Button("Resume"))
-			{
-				s_showImgui = false;
-			}
-
-			ImGui::SameLine();
-
-			ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-			ImGui::End();
-
-			ImGui::Render();
-			ImGui_ImplBabylon_RenderDrawData(ImGui::GetDrawData());
-		}
+		ImGui::Render();
+		ImGui_ImplBabylon_RenderDrawData(ImGui::GetDrawData());
 	}
 
 	Uninitialize();

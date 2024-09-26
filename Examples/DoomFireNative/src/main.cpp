@@ -216,7 +216,7 @@ int main()
 	glfwWindowHint( GLFW_CLIENT_API, GLFW_NO_API );
 	glfwWindowHint( GLFW_MAXIMIZED, GLFW_TRUE );
 
-	auto window = glfwCreateWindow( INITIAL_WIDTH, INITIAL_HEIGHT, "DOOM Fire Native Example", NULL, NULL );
+	auto window = glfwCreateWindow( INITIAL_WIDTH, INITIAL_HEIGHT, "DOOM Fire - C++", NULL, NULL );
 
 	if( !window )
 	{
@@ -267,18 +267,7 @@ int main()
 
 		ImGui::NewFrame();
 
-		static float ballSize = 1.0f;
 		ImGui::Begin( "DOOM Fire Native" );
-		ImGui::SliderInt( "Wind", &simulator.WindStrength, 0, 10 );
-		ImGui::SliderInt( "Fire decay", &simulator.FireDecay, 1, 10 );
-		
-		int sizeCount = simulator.GetSizeCount();
-
-		if( ImGui::SliderInt( "Instances per side", &sizeCount, 0, 100 ) )
-		{
-			change_instances_count(sizeCount);
-		}
-
 		ImGui::Text( "Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate );
 		ImGui::End();
 

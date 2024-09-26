@@ -3,7 +3,7 @@
 /// <reference path="../../../node_modules/babylonjs-materials/babylonjs.materials.module.d.ts" />
 /// <reference path="../../../node_modules/babylonjs-gui/babylon.gui.module.d.ts" />
 
-const numPerSide = 100;
+const numPerSide = 70;
 const size = 200;
 const ofst = size / (numPerSide - 2);
 const instanceCount = numPerSide * numPerSide * numPerSide;
@@ -20,7 +20,7 @@ engine.runRenderLoop(function () {
 });
 
 //-------------------- YOUR CODE GOES HERE ------------------------------
-var camera = new BABYLON.ArcRotateCamera("Camera", -Math.PI / 2, Math.PI / 2, 250, BABYLON.Vector3.Zero(), scene);
+var camera = new BABYLON.ArcRotateCamera("Camera", -Math.PI / 4, Math.PI / 3, 450, BABYLON.Vector3.Zero(), scene);
 camera.attachControl(true);
 
 // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
@@ -61,13 +61,13 @@ function updateFireIntensityPerPixel(currentPixelIndex) {
         return
     }
 
-    const decay = Math.floor(Math.random() * 2)  // fire intensity discount
+    const decay = Math.floor(Math.random() * 2.5)  // fire intensity discount
     const belowPixelFireIntensity = fireIntensityData[belowPixelIndex]
 
     const newFireIntensity =
         belowPixelFireIntensity - decay >= 0 ? belowPixelFireIntensity - decay : 0  // don't show negative numbers
 
-    let direction = Math.floor(Math.random() * 2) - 1;
+    let direction = Math.floor(Math.random() * 2.5) - 1;
     direction = (direction == 0) ? 1 : direction;
     const decayDirection = decay * direction;
     fireIntensityData[currentPixelIndex - decayDirection] = newFireIntensity

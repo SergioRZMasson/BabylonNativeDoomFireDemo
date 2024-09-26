@@ -13,9 +13,6 @@ public:
 	void UpdateFire( Napi::Float32Array& fireColorData );
 	int FireDecay = 1;
 	int WindStrength = 1;
-	int GetSizeCount() {
-		return m_cubeSize;
-	};
 
 private:
 	void IncreaseFireSource();

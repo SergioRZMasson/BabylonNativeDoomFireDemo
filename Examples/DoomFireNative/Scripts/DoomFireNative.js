@@ -10,7 +10,7 @@ engine.runRenderLoop(function () {
     scene.render();
 });
 
-let numPerSide = 100;
+let numPerSide = 70;
 let size = 200;
 let ofst = size / (numPerSide - 2);
 let instanceCount = numPerSide * numPerSide * numPerSide;
@@ -18,7 +18,7 @@ let matricesData = new Float32Array(16 * instanceCount);
 let colorData = new Float32Array(4 * instanceCount);
 
 //-------------------- YOUR CODE GOES HERE ------------------------------
-var camera = new BABYLON.ArcRotateCamera("Camera", -Math.PI / 4, Math.PI / 2, 450, BABYLON.Vector3.Zero(), scene);
+var camera = new BABYLON.ArcRotateCamera("Camera", -Math.PI / 4, Math.PI / 3, 450, BABYLON.Vector3.Zero(), scene);
 camera.attachControl(true);
 
 // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
