@@ -1,0 +1,6 @@
+[submodule "Dependencies/glfw"]
+	path = Dependencies/glfw
+	url = https://github.com/glfw/glfw.git
+[submodule "Dependencies/BabylonNative"]
+	path = Dependencies/BabylonNative
+	url = https://github.com/BabylonJS/BabylonNative.git
