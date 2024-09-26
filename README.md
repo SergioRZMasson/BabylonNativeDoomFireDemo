@@ -6,13 +6,13 @@
   </a>
 </p>
 
-This is a demo showing how some computationally invesive tasks can be offloaded to C++ in a Babylon Native project. To ilustrate that we use multiple [Babylon.js Thin instances](https://doc.babylonjs.com/features/featuresDeepDive/mesh/copies/thinInstances), each instances has its color updated every frame by the [Doom Fire Algorithm](https://github.com/filipedeschamps/doom-fire-algorithm). The algorithm itself is pretty simple and it is just an excuse for use to update a large number of data every frame. The repo has two executables, in **DoomFireJS** we perform the fire update logic in JS, and in  **DoomFireNative** we move that logic to be done in C++. 
+This is a demo showing how some computationally intensive tasks can be offloaded to C++ in a Babylon Native project. To illustrate that, we use multiple [Babylon.js Thin instances](https://doc.babylonjs.com/features/featuresDeepDive/mesh/copies/thinInstances), each instances has its color updated every frame by the [Doom Fire Algorithm](https://github.com/filipedeschamps/doom-fire-algorithm). The algorithm itself is pretty simple and it is just an excuse for use to update a large number of data every frame. The repo has two executables, in **DoomFireJS** we perform the fire update logic in JS, and in  **DoomFireNative** we move that logic to be done in C++. 
 
 The goal for this project is to demonstrate the differences in performance by using JS vc C++ in a Babylon Native project. 
 
 ## Getting started
 
-This repo uses npm to download the babylon.js dependecies, and CMake to create the platform specific project. It is required to run npm install before CMake since it will try to copy the javascript files from the babylon.js packages into the generated solution. 
+This repo uses npm to download the babylon.js dependencies, and CMake to create the platform specific project. It is required to run npm install before CMake since it will try to copy the JavaScript files from the babylon.js packages into the generated solution. 
 
 ### Mac
 ```
