@@ -40,37 +40,36 @@ box.material = new BABYLON.StandardMaterial("material");
 box.material.disableLighting = true;
 box.material.emissiveColor = BABYLON.Color3.White();
 
-//JS update functions
+// During render loop
 scene.onBeforeCameraRenderObservable.add(() => {
+
+    // Increase fire at the floor.
     increaseFireSource();
+
+    // Propagate fire up.
     calculateFirePropagation();
+
+    // Turn fire intensity into color data.
     renderFire(box);
 });
 
 function calculateFirePropagation() {
-    for (let i = 0; i < instanceCount; i++) {
-        updateFireIntensityPerPixel(i)
+
+    const sideSquare = numPerSide * numPerSide;
+
+    for (let currentPixelIndex = 1; currentPixelIndex < instanceCount - sideSquare; currentPixelIndex++) {
+
+        const belowPixelIndex = currentPixelIndex + (sideSquare)   // takes the reference value and adds a width
+
+        const decay = Math.floor(Math.random() * 2.5)  // fire intensity discount
+        const belowPixelFireIntensity = fireIntensityData[belowPixelIndex]
+        const newFireIntensity = belowPixelFireIntensity - decay >= 0 ? belowPixelFireIntensity - decay : 0  // don't show negative numbers
+
+        let direction = Math.floor(Math.random() * 2.5) - 1;
+        direction = (direction == 0) ? 1 : direction;
+        const decayDirection = decay * direction;
+        fireIntensityData[currentPixelIndex - decayDirection] = newFireIntensity
     }
-}
-
-function updateFireIntensityPerPixel(currentPixelIndex) {
-
-    const belowPixelIndex = currentPixelIndex + (numPerSide * numPerSide)   // takes the reference value and adds a width
-
-    if (belowPixelIndex >= numPerSide * numPerSide * numPerSide) {
-        return
-    }
-
-    const decay = Math.floor(Math.random() * 2.5)  // fire intensity discount
-    const belowPixelFireIntensity = fireIntensityData[belowPixelIndex]
-
-    const newFireIntensity =
-        belowPixelFireIntensity - decay >= 0 ? belowPixelFireIntensity - decay : 0  // don't show negative numbers
-
-    let direction = Math.floor(Math.random() * 2.5) - 1;
-    direction = (direction == 0) ? 1 : direction;
-    const decayDirection = decay * direction;
-    fireIntensityData[currentPixelIndex - decayDirection] = newFireIntensity
 }
 
 function createCubes() {
