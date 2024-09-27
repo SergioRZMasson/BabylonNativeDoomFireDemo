@@ -123,14 +123,6 @@ void RefreshBabylon(GLFWwindow *window)
 	ImGui_ImplBabylon_Init( width , height );
 }
 
-static void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
-{
-	if (key == GLFW_KEY_R && action == GLFW_PRESS)
-	{
-		RefreshBabylon(window);
-	}
-}
-
 void mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
 {
 	double xpos, ypos;
@@ -170,14 +162,6 @@ static void window_resize_callback(GLFWwindow *window, int width, int height)
 	device->UpdateSize(width, height);
 }
 
-static void change_instances_count(int count) 
-{
-	runtime->Dispatch([count](Napi::Env env)
-	{ 
-		env.Global().Get("decreaseFireSource").As<Napi::Function>().Call({Napi::Number::New(env, count)});
-	});
-}
-
 
 int main()
 {
@@ -195,7 +179,6 @@ int main()
 		exit(EXIT_FAILURE);
 	}
 
-	glfwSetKeyCallback(window, key_callback);
 	glfwSetWindowSizeCallback(window, window_resize_callback);
 	glfwSetCursorPosCallback(window, cursor_position_callback);
 	glfwSetMouseButtonCallback(window, mouse_button_callback);

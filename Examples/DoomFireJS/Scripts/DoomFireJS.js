@@ -57,16 +57,23 @@ function calculateFirePropagation() {
 
     const sideSquare = numPerSide * numPerSide;
 
+    // For every instance except the floor.
     for (let currentPixelIndex = 1; currentPixelIndex < instanceCount - sideSquare; currentPixelIndex++) {
 
-        const belowPixelIndex = currentPixelIndex + (sideSquare)   // takes the reference value and adds a width
+        // Get intensity of the instance below
+        const belowPixelIndex = currentPixelIndex + (sideSquare);
+        const belowPixelFireIntensity = fireIntensityData[belowPixelIndex];
 
-        const decay = Math.floor(Math.random() * 2)  // fire intensity discount
-        const belowPixelFireIntensity = fireIntensityData[belowPixelIndex]
+        // Calculate new intensity.
+        const decay = Math.floor(Math.random() * 2);
         const newFireIntensity = Math.max(belowPixelFireIntensity - decay, 0);
+
+        // Calculate wind contribution
         let direction = Math.floor(Math.random() * 2) - 1;
         direction = Math.max(direction, 1);
         const decayDirection = decay * direction;
+
+        // Set new intensity value.
         fireIntensityData[currentPixelIndex - decayDirection] = newFireIntensity
     }
 }

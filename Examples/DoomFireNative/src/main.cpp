@@ -50,8 +50,6 @@ FireCubeSimulator simulator;
 #define INITIAL_WIDTH 1920
 #define INITIAL_HEIGHT 1080
 
-static bool s_showImgui = false;
-
 static void* glfwNativeWindowHandle( GLFWwindow* _window )
 {
 #if TARGET_PLATFORM_LINUX
@@ -145,22 +143,9 @@ void RefreshBabylon( GLFWwindow* window )
 	ImGui_ImplBabylon_Init( width, height );
 }
 
-static void key_callback( GLFWwindow* window, int key, int scancode, int action, int mods )
-{
-	if( key == GLFW_KEY_R && action == GLFW_PRESS )
-	{
-		RefreshBabylon( window );
-	}
-	else if( key == GLFW_KEY_D && action == GLFW_PRESS )
-	{
-		s_showImgui = !s_showImgui;
-	}
-}
-
 void mouse_button_callback( GLFWwindow* window, int button, int action, int mods )
 {
-	if( s_showImgui )
-		return;
+
 
 	double xpos, ypos;
 	glfwGetCursorPos( window, &xpos, &ypos );
@@ -224,7 +209,6 @@ int main()
 		exit( EXIT_FAILURE );
 	}
 
-	glfwSetKeyCallback( window, key_callback );
 	glfwSetWindowSizeCallback( window, window_resize_callback );
 	glfwSetCursorPosCallback( window, cursor_position_callback );
 	glfwSetMouseButtonCallback( window, mouse_button_callback );

@@ -10,12 +10,12 @@ engine.runRenderLoop(function () {
     scene.render();
 });
 
-let numPerSide = 70;
-let size = 200;
-let ofst = size / (numPerSide - 2);
-let instanceCount = numPerSide * numPerSide * numPerSide;
-let matricesData = new Float32Array(16 * instanceCount);
-let colorData = new Float32Array(4 * instanceCount);
+const numPerSide = 70;
+const size = 200;
+const ofst = size / (numPerSide - 2);
+const instanceCount = numPerSide * numPerSide * numPerSide;
+const matricesData = new Float32Array(16 * instanceCount);
+const colorData = new Float32Array(4 * instanceCount);
 
 //-------------------- YOUR CODE GOES HERE ------------------------------
 var camera = new BABYLON.ArcRotateCamera("Camera", -Math.PI / 4, Math.PI / 3, 450, BABYLON.Vector3.Zero(), scene);
@@ -55,20 +55,4 @@ function createCubes() {
             }
         }
     }
-}
-
-function resetInstancesPerSide(arg) {
-    numPerSide = arg;
-    size = 200;
-    ofst = size / (numPerSide - 2);
-    instanceCount = numPerSide * numPerSide * numPerSide;
-    matricesData = new Float32Array(16 * instanceCount);
-    colorData = new Float32Array(4 * instanceCount);
-
-    createCubes();
-
-    box.thinInstanceSetBuffer("matrix", matricesData, 16);
-    box.thinInstanceSetBuffer("color", colorData, 4);
-
-    createNativeBuffers(numPerSide);
 }

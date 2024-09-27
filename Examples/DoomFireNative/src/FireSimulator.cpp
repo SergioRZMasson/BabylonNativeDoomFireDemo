@@ -48,16 +48,23 @@ void FireCubeSimulator::CalculateFirePropagation()
 	auto instanceCount = m_cubeSize * m_cubeSize * m_cubeSize;
 	auto sideSquare = m_cubeSize * m_cubeSize;
 
+	// For every instance except the floor.
 	for( auto currentPixelIndex = 1; currentPixelIndex < instanceCount - sideSquare; currentPixelIndex++ )
 	{
+		// Get intensity of the instance below
 		auto belowPixelIndex = currentPixelIndex + (sideSquare);
-
-		int32_t decay = m_generator.NextInt( 0, FireDecay);
 		int32_t belowPixelFireIntensity = m_fireIntensityVector[belowPixelIndex];
+
+		// Calculate new intensity.
+		int32_t decay = m_generator.NextInt( 0, FireDecay);
 		int32_t newFireIntensity = std::max( belowPixelFireIntensity - decay, 0 );
+		
+		// Calculate wind contribution
 		int32_t direction = m_generator.NextInt( 0, WindStrength ) - 1;
 		direction = std::max( direction, 1 );
 		int32_t decayDirection = decay * direction;
+		
+		 // Set new intensity value.
 		m_fireIntensityVector[currentPixelIndex - decayDirection] = newFireIntensity;
 	}
 }
