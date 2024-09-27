@@ -61,12 +61,11 @@ function calculateFirePropagation() {
 
         const belowPixelIndex = currentPixelIndex + (sideSquare)   // takes the reference value and adds a width
 
-        const decay = Math.floor(Math.random() * 2.5)  // fire intensity discount
+        const decay = Math.floor(Math.random() * 2)  // fire intensity discount
         const belowPixelFireIntensity = fireIntensityData[belowPixelIndex]
-        const newFireIntensity = belowPixelFireIntensity - decay >= 0 ? belowPixelFireIntensity - decay : 0  // don't show negative numbers
-
-        let direction = Math.floor(Math.random() * 2.5) - 1;
-        direction = (direction == 0) ? 1 : direction;
+        const newFireIntensity = Math.max(belowPixelFireIntensity - decay, 0);
+        let direction = Math.floor(Math.random() * 2) - 1;
+        direction = Math.max(direction, 1);
         const decayDirection = decay * direction;
         fireIntensityData[currentPixelIndex - decayDirection] = newFireIntensity
     }
@@ -120,7 +119,7 @@ function increaseFireSource() {
 
             if (currentFireIntensity < 36) {
                 const increase = Math.floor(Math.random() * 7)
-                const newFireIntensity = currentFireIntensity + increase >= 36 ? 36 : currentFireIntensity + increase;
+                const newFireIntensity = Math.min(currentFireIntensity + increase, 36)
                 fireIntensityData[pixelIndex] = newFireIntensity;
             }
         }
